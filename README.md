@@ -92,6 +92,23 @@ This project was created entirely through AI assistance using:
 - ✅ Animations and visual effects
 - ✅ This README
 
+## 🚀 Deployment
+
+### GitHub Pages
+
+The project is configured for easy deployment to GitHub Pages:
+
+```bash
+npm run deploy
+```
+
+This will:
+1. Build the production bundle
+2. Deploy to the `gh-pages` branch
+3. Make it available at `https://YOUR_USERNAME.github.io/3d-ticktacktoe/`
+
+**Note**: Make sure GitHub Pages is enabled in your repository settings and set to use the `gh-pages` branch.
+
 ## 🎨 Customization
 
 You can customize various aspects:
