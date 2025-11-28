@@ -163,7 +163,7 @@ export default function P2PLobby({ peerConnection, onGameStart }: P2PLobbyProps)
 
                 <div className="mt-8 pt-6 border-t border-white/10">
                     <button
-                        onClick={() => window.location.href = '/'}
+                        onClick={() => window.location.hash = ''}
                         className="w-full py-2 text-gray-400 hover:text-white transition-colors text-sm"
                     >
                         ← Back to Menu

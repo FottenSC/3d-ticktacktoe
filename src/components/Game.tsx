@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment } from '@react-three/drei'
 import Board from './Board'
 import WinningLine from './WinningLine'
+import Confetti from './Confetti'
+import { playWinSound } from '../utils/sound'
 import type { PlayerSymbol, ConnectionStatus } from '../hooks/usePeerConnection'
 
 interface P2PState {
@@ -33,6 +35,18 @@ export default function Game({ mode = 'local', p2pState }: GameProps) {
 
     const winInfo = calculateWinner(board)
     const winner = winInfo?.winner
+
+    // Play sound on win
+    useEffect(() => {
+        if (winner) {
+            // Only play sound if WE won (in P2P) or anyone won (in local)
+            const shouldPlaySound = mode === 'local' || (p2pState && winner === p2pState.mySymbol)
+
+            if (shouldPlaySound) {
+                playWinSound()
+            }
+        }
+    }, [winner, mode, p2pState])
 
     const handleClick = (i: number) => {
         if (mode === 'p2p' && p2pState) {
@@ -118,6 +132,15 @@ export default function Game({ mode = 'local', p2pState }: GameProps) {
                             Disconnect
                         </button>
                     )}
+
+                    {mode === 'local' && (
+                        <button
+                            className="px-4 py-2 bg-gray-600 rounded hover:bg-gray-500 transition-colors cursor-pointer"
+                            onClick={() => window.location.hash = ''}
+                        >
+                            Back to Menu
+                        </button>
+                    )}
                 </div>
             </div>
             <Canvas shadows camera={{ position: [5, 5, 5], fov: 50 }}>
@@ -132,6 +155,7 @@ export default function Game({ mode = 'local', p2pState }: GameProps) {
                 <OrbitControls />
                 <Board squares={board} onClick={handleClick} />
                 {winInfo && <WinningLine line={winInfo.line} />}
+                {winner && <Confetti />}
                 <gridHelper args={[10, 10]} />
             </Canvas>
         </div>

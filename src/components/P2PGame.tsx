@@ -18,7 +18,7 @@ export default function P2PGame() {
     const handleDisconnect = () => {
         peerConnection.disconnect()
         setGameStarted(false)
-        window.location.reload()
+        window.location.hash = ''
     }
 
     if (!gameStarted || peerConnection.status !== 'connected') {
